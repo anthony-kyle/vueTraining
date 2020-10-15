@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>VUE the v-model directive</title>
+		<meta http-equiv='content-type' content='text/html;charset=utf-8'>
+		<meta name='viewport' content='width=device-width,initial-scale=1.0'>
+		<style>
+			h1,div,p,span{font-size:33px;font-family:helvetica;margin-top:10px;}
+			input{width:600px;height:50px;font-size:36px;}
+			span{color:red}
+		</style>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<body>	
+		<div id='app'>
+			<input v-model='message'/>
+			<hr/>
+			<p v-bind:title='title'>Processed value: <span>{{computed_msg}}</span></p>
+			
+		</div>
+	<script type='text/javascript'>
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				message:'message set in data',
+				title:'title set in title',
+			},
+			filters:{
+				capitalize: (v)=>{
+					return v.toUpperCase()
+				}
+			},
+			computed:{
+				computed_msg: function(){
+					return this.message.split('').reverse().join('')
+				}
+			}
+		})
+	</script>	
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

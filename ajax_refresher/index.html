@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajax Project</title>
+</head>
+<body>
+  <button id="btn" onclick='request()'>Send Ajax Request</button>
+  <script>
+    const ajax = new XMLHttpRequest()
+    
+    function request(){
+      const url = './interface.php'
+      ajax.onreadystatechange = response
+      ajax.open('POST', url, true) // method, url, true
+      ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+      ajax.send('name=me&msg=my message&time=2020')
+    }
+
+    function response(){
+      if (ajax.readyState === 4){
+        if (ajax.status === 200){
+          console.log(JSON.parse(ajax.responseText))
+        } else {
+          console.error('ERROR Contacting server.', 'Status Code:', ajax.status )
+        }
+      }
+    }
+  </script>
+</body>
+</html>

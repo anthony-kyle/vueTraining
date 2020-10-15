@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoped List</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      body {
+        min-height: 100vh;
+        font-size: 1.6em;
+      }
+    </style>
+  </head>
+  <body class="has-background-primary-dark">
+    <div id="app">
+      <section class="section">
+        <div class="box container">
+          <comp ref="comp" v-model="msg"></comp>
+          <hr />
+          <b
+            style="
+              background-color: rgba(0, 143, 122, 0.6);
+              border-radius: 0.5em;
+              padding: 0.5em;
+            "
+            >{{msg}}</b
+          >
+        </div>
+      </section>
+    </div>
+
+    <template id="temp">
+      <div>
+        <input
+          type="text"
+          v-bind:value="my_prop"
+          v-on:input="send($event.target.value)"
+        />
+      </div>
+    </template>
+
+    <script>
+      Vue.component("comp", {
+        // template: "#temp",
+        render: function (ce) {
+          const self = this
+          return ce("input", {
+            attrs: { 
+              class: "input", 
+              title: "Message Input", 
+              // value: this.my_prop,
+            },
+            domProps:{
+              value: self.my_prop,
+            },
+            on: {
+              input:function(e){
+                self.send(e.target.value)
+              }
+            }
+          });
+        },
+        props: ["my_prop"],
+        model: {
+          event: "my_event",
+          prop: "my_prop",
+        },
+        methods: {
+          send: function (v) {
+            this.$emit("my_event", v);
+          },
+        },
+      });
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "Initial Message Value",
+        },
+      });
+      const comp = vm.$refs.comp;
+    </script>
+  </body>
+</html>

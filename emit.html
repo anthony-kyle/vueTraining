@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Input Qty Limiter / Counter</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <section class="section">
+        <div class="container box has-text-centered">
+          <h1 class="title is-1">Parent</h1>
+          <hr>
+          <comp v-on:relay='allocate'></comp>
+          <hr>
+          <p class="block mb-5 has-background-info has-text-white p-3">{{content1}}</p>
+          <p class="block mb-5 has-background-warning has-text-grey p-3">{{content2}}</p>
+        </div>
+      </section>
+    </div>
+
+    <template id="form">
+      <div>
+          <h2 class="subtitle is-3">Component</h2>
+          <input class="input has-text-centered mb-3" v-model="message1" />
+          <input class="input has-text-centered mb-3" v-model="message2" />
+          <button class="button is-primary" v-on:click='send'>Send Data</button>
+      </div>
+    </template>
+
+    <script type="text/javascript">
+      var vm = new Vue({
+        el: "#app",
+        data:{
+          content1: "Waiting for data from message1",
+          content2: "Waiting for data from message2",
+        },
+        components: {
+          comp: {  
+            template: '#form',
+            data:function(){
+              return {
+                message1: 'Some data',
+                message2: 'More data'
+              }
+            },
+            props: ['prop'],
+            methods:{
+              send:function(){
+                this.$emit('relay', this.message1, this.message2)
+              }
+            }
+          }
+        },
+        methods:{
+          allocate:function(v1, v2){
+            this.content1 = v1
+            this.content2 = v2
+          }
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transitions</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <comp1></comp1>
+    </div>
+
+    <template id="temp1">
+      <div>
+        <p>This is a comp.</p>
+      </div>
+    </template>
+
+    <script>
+      Vue.component("comp1", {
+        // template: "#temp1",
+        render: function(createElement){
+          var p = createElement(
+            'p',
+            {
+              attrs: {
+                title: 'The first p tag'
+              }
+            },
+            'P tag Contents...'
+          )
+          var p2 = createElement(
+            'p',
+            {
+              attrs: {
+                title: 'The second p tag'
+              }
+            },
+            'P2 tag Contents...'
+          )
+
+          return createElement(
+            'div',
+            {
+              style:{
+                padding: '1em',
+                border: 'solid 1px blue',
+                borderRadius: '1em'
+              },
+            },
+            [p, p2]
+          )
+        }
+      });
+
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          msg: 'MSG defined in vue data',
+        },
+        methods: {},
+      });
+    </script>
+  </body>
+</html>

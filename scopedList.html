@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoped List</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      body {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body class="has-background-primary-dark">
+    <div id="app">
+      <section class="section">
+        <div class="box container">
+          <comp v-bind:items="list_info">
+            <template scope="obj">
+              <li>The brand is {{obj.brand}} and the model is {{obj.model}}</li>
+            </template>
+          </comp>
+          <!-- Deal with the obj name after -->
+        </div>
+      </section>
+    </div>
+
+    <template id="temp">
+      <div>
+        <ul>
+          <slot
+            v-for="item in items"
+            :brand="item.brand"
+            :model="item.model"
+          ></slot>
+        </ul>
+      </div>
+    </template>
+
+    <script>
+      Vue.component('comp', {
+        template: '#temp',
+        props: ['items']  // Items will store list info
+      })
+
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          list_info: [
+            {brand: 'Toyota', model: 'Supra'},
+            {brand: 'Toyota', model: 'LC 79'},
+            {brand: 'Nissan', model: 'GT-R'},
+            {brand: 'Nissan', model: '370z'},
+            {brand: 'Honda', model: 'Civic'},
+            {brand: 'Honda', model: 'NSX'},
+            {brand: 'Mazda', model: 'RX-8'},
+            {brand: 'Mazda', model: 'RX-7'},
+          ]
+        },
+      })
+    </script>
+  </body>
+</html>

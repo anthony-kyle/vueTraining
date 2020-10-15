@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lifecycle Hooks</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      body {
+        height: 100vh;
+      }
+      .icon,
+      .limit {
+        float: right;
+      }
+    </style>
+  </head>
+  <body class="has-background-info-dark">
+    <div id="app">
+      <p>{{msg}}</p>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: { msg: "MSG Defined in Vue Data" },
+        beforeCreate: function () {
+          console.log("HOOK: beforeCreate");
+        },
+        created: function () {
+          console.log("HOOK: created");
+        },
+        beforeMount: function () {
+          console.log("HOOK: beforeMount");
+        },
+        mounted: function () {
+          console.log("HOOK: mounted");
+        },
+        beforeUpdate: function () {
+          console.log("HOOK: beforeUpdate");
+        },
+        updated: function () {
+          console.log("HOOK: updated");
+        },
+        beforeDestroy: function () {
+          console.log("HOOK: beforeDestroy");
+        },
+        destroyed: function () {
+          console.log("HOOK: destroyed");
+        },
+      });
+      // vm.msg = 'updated value'
+      vm.$destroy();
+    </script>
+  </body>
+</html>

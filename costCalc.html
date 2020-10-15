@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Input Qty Limiter / Counter</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <style>
+      body {
+        height: 100vh;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body class="has-background-primary">
+  <div id="app" >
+      <section class="section">
+        <div class="container box has-text-centered">
+          <h1 class="title is-1">Price Calculator</h1>
+          <hr>
+          <comp label="Price" v-model="price"></comp>
+          <comp label="Shipping" v-model="shipping"></comp>
+          <comp label="Wrapping Fee" v-model="wrapping"></comp>
+          <comp label="Discount" v-model="discount"></comp>
+          <hr>
+          <p><span class="title is-6">Total Cost:</span> {{total}}</p>
+        </div>
+      </section>
+    </div>
+
+    <template id="input">
+        <label class="is-block mb-3">
+          {{label}} <!-- label is a prop -->
+          <input type="number" class="input has-text-centered" v-bind:value="value" v-on:input='send($event.target.value)' /><!-- Set Details Later -->
+        </label>
+    
+    </template>
+
+    <script type="text/javascript">
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          price: 0,
+          shipping: 0,
+          discount: 0,
+          wrapping: 0,
+        },
+        computed: {
+          total: function () {
+            this.price = Number(this.price)
+            this.shipping = Number(this.shipping)
+            this.discount = Number(this.discount)
+            this.wrapping = Number(this.wrapping)
+            return this.price + this.shipping + this.wrapping - this.discount;
+          },
+        },
+        components: {
+          comp: {
+            template: "#input",
+            data: function () {
+              return {}
+            },
+            props: ["label", "value"],
+            methods: {
+              send:function(v){
+                this.$emit('input', v)
+              }
+            },
+          },
+        },
+        methods: {},
+      });
+    </script>
+  </body>
+</html>

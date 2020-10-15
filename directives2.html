@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Directive</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body class="has-background-info-dark">
+    <div id="app">
+      <p v-test>The number is: <b>{{number}}</b></p>
+      <hr />
+      <button @click="add">Add One</button>
+    </div>
+
+    <script>
+      Vue.directive("test", {
+        // all hooks are installed here
+        bind: function (el) {
+          console.log(el.parentNode);
+        },
+        inserted: function (el) {
+          console.log(el.parentNode);
+        },
+        update: function (el) {
+          console.log("UPDATE: " + el.innerText);
+        },
+        componentUpdated: function (el) {
+          console.log("COMPONENT UPDATED: " + el.innerText);
+        },
+        unbind: function (el) {
+          console.log("I am the unbind hook");
+        },
+      });
+
+      const vm = new Vue({
+        el: "#app",
+        data: { number: 1 },
+        methods: {
+          add: function () {
+            this.number++;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

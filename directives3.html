@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Directive</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #454545;
+        font-size: 1.6em;
+        width: 100%;
+        min-height: 100%;
+        display: grid;
+        place-content: center;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      #app {
+        display: grid;
+        width: 80%;
+        height: 80%;
+        background-color: #efefef;
+        border: solid 1px #ddd;
+        border-radius: 1em;
+        padding: 1em;
+        box-shadow: 4px 4px 8px #cdcdcd;
+        text-align: center;
+      }
+
+      button {
+        font: inherit;
+        border-radius: 0.5em;
+      }
+
+      button:focus {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body class="has-background-info-dark">
+    <div id="app">
+      <p v-test='{fruit: "apple"}'>{{msg}}</p>
+      <button @click="update">Update</button>
+    </div>
+
+    <script>
+      Vue.directive("test", (el, binding) => {
+        console.log(binding.value.fruit)
+      });
+
+      const vm = new Vue({
+        el: "#app",
+        data: { msg: "MSG defined in Vue Data" },
+        methods: {
+          update: function () {
+            this.msg = "Updated MSG Value";
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

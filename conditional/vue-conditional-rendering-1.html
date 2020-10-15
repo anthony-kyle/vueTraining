@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>VUE Conditional Rendering</title>
+		<meta http-equiv='content-type' content='text/html;charset=utf-8'>
+		<meta name='viewport' content='width=device-width,initial-scale=1.0'>
+		<style>
+			body{padding-left:40px;}
+			h1,div,p,span{font-size:33px;font-family:helvetica}
+		</style>
+		<script type='text/javascript' src='vue.js'></script>
+	<body>	
+		<div id='app'>
+			<p>{{message}}</p>
+			<p v-show='message'>New P Tag</p>
+			<button @click="message = message-1">Click Me</button>
+		</div>
+	<script type='text/javascript'>
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				message:3
+			},
+			methods:{},
+		})
+		
+	</script>	
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

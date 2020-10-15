@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News Lister</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      body {
+        height: 100vh;
+      }
+      .icon,
+      .limit {
+        float: right;
+      }
+      .fade-enter, .fade-leave-to {opacity: 0;}
+      .fade-enter-active, .fade-leave-active {transition: opacity 0.5s, height 0.5s;}
+    </style>
+  </head>
+  <body class="has-background-primary">
+    <div id="app">
+      <section class="section">
+        <div class="container box has-text-grey">
+          <i v-if="show" v-on:click="show=!show" class="far fa-edit icon"></i>
+          <i v-if="!show" v-on:click="save" class="far fa-save icon"></i>
+          <transition name="fade" mode="out-in">
+            <div v-if="show" id="reading_mode" key="reading">
+              <reading-comp
+                :title="title"
+                :author="author"
+                :date="date"
+                :category="category"
+                :theme="category_themes[category]"
+              >
+                <template scope="obj"> 
+                  <p class="has-text-weight-bold is-italic has-text-right">{{obj.designer_info}}</p>
+                  {{article}} 
+                </template>
+              </reading-comp>
+            </div>
+            <div v-if="!show" id="editing_mode" key="editing">
+              <label class="label"
+                >Article Title<input
+                  v-bind:class="{input:true, 'is-danger': !remain}"
+                  v-model="title"
+                  v-on:input="check"
+                /><span class="limit is-italic has-text-weight-normal"
+                  >{{remain}} / {{limit}}</span
+                ></label
+              >
+              <label class="label"
+                >Author Name<input class="input" v-model="author"
+              /></label>
+              <label class="label"
+                >Category
+                <!-- <input class="input" v-model="category"/> -->
+                <div class="select is-block">
+                  <select class="input" v-model="category">
+                    <option v-for="c in category_list" v-bind:value="c">
+                      {{c}}
+                    </option>
+                  </select>
+                </div>
+              </label>
+              <label class="label"
+                >Article<textarea
+                  class="textarea"
+                  v-model="article"
+                  rows="10"
+                ></textarea>
+              </label>
+            </div>
+          </transition>
+        </div>
+      </section>
+    </div>
+
+    <template id="reading_temp">
+      <div>
+        <h1 class="title is-1">{{title}}</h1>
+        <!-- Title is a prop -->
+        <hr v-bind:class="theme" />
+        <slot v-bind:designer_info = "designer"></slot>
+        <hr v-bind:class="theme" />
+        <p class="has-text-grey is-italic has-text-right">
+          Created by <span>{{author}}</span>, last edited at {{date}}
+        </p>
+        <div
+          id="category"
+          v-bind:class="theme"
+          class="mt-3 px-3 py-2 has-text-white has-text-right is-uppercase"
+        >
+          <span>{{category}}</span>
+        </div>
+      </div>
+    </template>
+
+    <script type="text/javascript">
+      Vue.component("reading-comp", {
+        template: "#reading_temp",
+        props: ["title", "author", "date", "category", "theme"],
+        data: function () {
+          return {
+            designer: 'APP Developed by Struthious',
+          }
+        },
+        methods: {},
+      });
+
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          show: true,
+          limit: 50,
+          title: "A Course on Vue.js 2.0+",
+          article:
+            "Spicy jalapeno bacon ipsum dolor amet voluptate shank laborum pariatur exercitation drumstick duis prosciutto swine bacon cupidatat sirloin flank shoulder minim. Ut reprehenderit capicola bresaola, fatback tempor doner turducken burgdoggen aute bacon swine sirloin. Enim adipisicing rump porchetta biltong, chicken sirloin cupidatat in pig kevin consectetur commodo tenderloin. Beef ribs eiusmod eu drumstick ad aliquip proident excepteur.",
+          author: "Kevin Bacon",
+          date: new Date().toLocaleString("default", {
+            minimumIntegerDigits: 2,
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            hour12: true,
+            hour: "numeric",
+            minute: "numeric",
+          }),
+          category: "News",
+          category_list: ["Web", "Tech", "News", "Science", "Sports"],
+          category_themes: {
+            Web: "has-background-primary-dark",
+            Tech: "has-background-link-dark",
+            News: "has-background-info-dark",
+            Science: "has-background-success-dark",
+            Sports: "has-background-warning-dark",
+          },
+        },
+        computed: {
+          remain: function () {
+            return this.limit - this.title.length;
+          },
+        },
+        methods: {
+          save: function () {
+            this.show = !this.show;
+            this.date = new Date().toLocaleString("default", {
+              minimumIntegerDigits: 2,
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              hour12: true,
+              hour: "numeric",
+              minute: "numeric",
+            });
+          },
+          check: function () {
+            if (this.remain < 0) {
+              this.title = this.title.substr(0, this.limit);
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

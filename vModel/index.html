@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>VUE</title>
+		<meta http-equiv='content-type' content='text/html;charset=utf-8'>
+		<meta name='viewport' content='width=device-width,initial-scale=1.0'>
+		<style>
+			h1,div,p,span{font-size:55px;font-family:helvetica}
+		</style>
+		<script type='text/javascript' src='./node_modules/vue/dist/vue.js'></script>
+	<body>	
+		<div id='app'>
+      <input v-model.number.lazy='message' />
+      <p>{{message}}</p>
+      <input v-model='new_message' />
+      <p>{{new_message}}</p>
+      <textarea v-model="textarea"></textarea>
+      <p>{{textarea}}</p>
+      <label>Apple<input type="checkbox" value="apple" v-model="fruit"></label>
+      <label>Peach<input type="checkbox" value="peach" v-model="fruit"></label>
+      <label>Pear<input type="checkbox" value="pear" v-model="fruit"></label>
+      <label>Banana<input type="checkbox" value="banana" v-model="fruit"></label>
+      <p>You have selected: <span>{{fruit}}</span></p>
+
+      <select v-model="select">
+        <option v-for='element in select_info' v-bind:value='element.value'>{{element.text}}</option>
+      </select>
+      <p>You have selected: <span>{{select}}</span></p>
+		</div>
+    <script type='text/javascript'>
+      var vm = new Vue({
+        el:'#app',
+        data:{
+          message: 'Initial Value Set in Data',
+          new_message: 'New Message property in Data',
+          textarea: 'New textArea property in Data',
+          fruit: [],
+          select_info: [
+            {value:'Apple', text:'Apple'},
+            {value:'Pear', text:'Pear'},
+            {value:'Watermelon', text:'Watermelon'},
+            {value:'Orange', text:'Orange'},
+          ],
+          select: 'Pear'
+        }
+      })
+      
+    </script>	
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>First Local Mixin</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #454545;
+      }
+      .app {
+        padding: 1em;
+        background-color: #454545;
+        font-size: 1.2em;
+        display: grid;
+        place-content: center;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      .container {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        background-color: #efefef;
+        border: solid 1px #ddd;
+        border-radius: 1em;
+        padding: 1em;
+        box-shadow: 4px 4px 8px #cdcdcd;
+        place-content: center;
+        box-sizing: border-box;
+      }
+
+      ul {
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+        text-align: center;
+      }
+
+      li {
+        padding: 0.5em;
+        background-color: #454545;
+        color: #efefef;
+        border-radius: 0.5em;
+        margin-bottom: 0.5em;
+      }
+      #app2 li {
+        background-color: #661144
+      }
+      button {
+        font: inherit;
+        border-radius: 0.5em;
+      }
+
+      button:focus {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app1" class="app">
+      <div class="container">
+        <ul>
+          <li v-for="d in $data">{{d}}</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div id="app2" class="app">
+      <div class="container">
+        <ul>
+          <li v-for="d in $data">{{d}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      Vue.mixin({
+        data:()=>{
+          return {
+            mixin_msg: 'MSG defined in GLOBAL MIXIN',
+          }
+        },
+        created:function(){
+          console.log(this.msg1)
+        }
+      })
+      // const my_mixin = {
+      //   data: {
+      //     mixin_msg: 'msg defined in MIXIN',
+      //   },
+      //   methods:{
+      //     sayBye: ()=>{
+      //       console.log("Bye method from Mixin")
+      //     },
+      //   },
+      // }
+
+      const vm1 = new Vue({
+        el: "#app1",
+        // mixins: [my_mixin],
+        data: {
+          msg1: "msg1 defined in vue1 data",
+          msg2: "msg2 defined in vue1 data",
+          msg3: "msg3 defined in vue1 data",
+        },
+        methods: {
+          sayhi: function () {
+            console.log("sayhi method from Vue methods");
+          },
+        },
+      });
+
+      const vm2 = new Vue({
+        el: "#app2",
+        // mixins: [my_mixin],
+        data: {
+          msg1: "msg1 defined in vue2 data",
+          msg2: "msg2 defined in vue2 data",
+          msg3: "msg3 defined in vue2 data",
+        },
+        methods: {
+          sayhi: function () {
+            console.log("sayhi method from Vue methods");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Input Qty Limiter / Counter</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <comp prop='direct set'></comp>
+      <comp v-bind:prop='vue_data'></comp>
+    </div>
+
+    <template id="temp">
+      <section class="section">
+        <div class="container">
+          <p>This is a component</p>
+          <p>{{message}}</p>
+          <p>{{message2}}</p>
+          <p>{{prop}}</p>
+        </div>
+      </section>
+    </template>
+
+    <script type="text/javascript">
+      var vm = new Vue({
+        el: "#app",
+        data:{
+          vue_data: "Data Value"
+        },
+        components: {
+          comp: {  
+            template: '#temp',
+            data:function(){
+              return {
+                message: "Component's own data.",
+                message2: "Components data and " + this.prop,
+              }
+            },
+            props: ['prop'],
+            methods:{}
+          }
+        },
+        methods:{},
+      });
+    </script>
+  </body>
+</html>

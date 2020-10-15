@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Directive</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body class="has-background-info-dark">
+    <div id="app">
+      <fade>
+        <p v-if="show" v-test>I am a P tag</p>
+      </fade>
+      <button @click="show=!show">Show/Hide</button>
+    </div>
+
+    <template id="temp1">
+      <transition
+        :css="false"
+        v-on:enter="enter"
+        v-on:leave="leave"
+      >
+        <slot></slot>
+      </transition>
+    </template>
+
+    <script>
+      Vue.directive('test', {
+        // all hooks are installed here
+        bind:function(el){
+          console.log(el.parentNode)
+        },
+        inserted:function(el){
+          console.log(el.parentNode)
+        },
+        unbind:function(el){
+          console.log('I am the unbind hook')
+        },
+      })
+
+      Vue.component("fade", {
+        template: "#temp1",
+        methods: {
+          enter: function (el, done) {
+            Velocity(el, {height: '1em', fontSize: '2em', opacity: 1}, { duration: 500})
+            Velocity(el, {height: '1em', fontSize: '1em', opacity: 1}, { duration: 500, complete: done })
+          },
+          leave: function (el, done) {
+            Velocity(el, {height: 0, fontSize: 0, opacity: 0}, { duration: 500, complete: done });
+          },
+        },
+      });
+
+      const vm = new Vue({
+        el: "#app",
+        data: { show: true },
+        methods: {},
+      });
+    </script>
+  </body>
+</html>
