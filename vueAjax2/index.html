@@ -28,6 +28,9 @@
       }
       li {
         margin-bottom: 1em;
+      }
+      #list li, #err_msg li {
+        
         padding: .5em;
         border: solid 1px grey;
         border-radius: 0.5em;
@@ -40,17 +43,80 @@
 </head>
 <body class="has-background-primary-dark">
   <div id="app" class="py-5">
+    <div class="modal" v-bind:class='{"is-active": edit_switch}' v-if='edit_switch'>
+      <div class="modal-background" @click="cancel_edit"></div>
+      <div class="modal-content">
+        <div class="box">
+          <ul>
+            <li><span>Brand </span><input class="input" placeholder="Enter Vehicle Brand" type="text" v-model="edited_item.brand"></li>
+            <li><span>Model </span><input class="input" placeholder="Enter Vehicle Model" type="text" v-model="edited_item.model"></li>
+            <li>
+              <label for="">
+                <span>Engine </span>
+                <div class="select">
+                  <select class="input" v-model="edited_item.engine">
+                    <option value="1">Petrol</option>
+                    <option value="2">Diesel</option>
+                    <option value="3">Electric</option>
+                    <option value="4">Hybrid</option>
+                    <option value="5">Hydrogen</option>
+                  </select>
+                </div>
+              </label>
+            </li>
+            <li>
+              <label>
+                <span>Automatic </span>
+                <input class="radio" type="radio" name="gearbox" value="1" v-model="edited_item.gearbox">
+              </label>
+            </li>
+            <li>
+              <label>
+                <span>Manual </span>
+                <input class="radio" type="radio" name="gearbox" value="2" v-model="edited_item.gearbox">
+              </label>
+            </li>
+            <li>
+              <button class="button is-primary" @click="update_item" v-bind:disabled='update_switch'>Update</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div class="container box">
       <ul id="list" v-if='car_info_set.length'>
         <li v-for='car in car_info_set'>
           Brand is <b>{{car.brand}}</b>, model is <b>{{car.model}}</b>, 
           engine is <b>{{car.engine}}</b> and gearbox is <b>{{car.gearbox}}</b><br>
           <span id="delete_item"class="edit_link" @click="delete_item(car.id)">[Delete]</span>
-          <span id="edit_item"  class="edit_link" @click="edit_item(car.id)">[Edit]</span>
+          <span id="edit_item"  class="edit_link" @click="start_edit(car)">[Edit]</span>
         </li>
       </ul>
       <ul id="err_msg" v-else>
         <li>{{err_msg}}</li>
+      </ul>
+
+      <ul id="form" class="box has-background-primary-dark has-text-white">
+        <li><span>Brand: </span><input class="input" type="text" v-model.trim='new_item.brand' placeholder="Enter Vehicle Brand"></li>
+        <li><span>Model: </span><input class="input" type="text" v-model.trim='new_item.model' placeholder="Enter Vehicle Model"></li>
+        <li><span>Engine: </span>
+          <div class="select">
+            <select class="input" name="" id="" v-model='new_item.engine'>
+              <option value="1">Petrol</option>
+              <option value="2">Diesel</option>
+              <option value="3">Electric</option>
+              <option value="4">Hybrid</option>
+              <option value="5">Hydrogen</option>
+            </select>
+          </div>
+        </li>
+        <li>
+          <label><span>Automatic: </span><input name="gearbox" type="radio"  value='1' v-model='new_item.gearbox'></label>
+        </li>
+        <li>    
+          <label><span>Manual: </span><input name="gearbox" type="radio" value='2' v-model='new_item.gearbox'></label>
+        </li>
+        <li><button class="button is-primary" v-bind:disabled='btn_switch' @click='create_item'>Create</button></li>
       </ul>
     </div>
   </div>
@@ -59,16 +125,74 @@
     const vm = new Vue({
       el: '#app',
       data: {
+        edit_switch: false,
         car_info_set: [],
         err_msg: 'Sorry, no cars to record',
         ajax:null,
         url: './interface.php',
+        new_item: {
+          brand: '',
+          model: '',
+          engine: 1,
+          gearbox: 1,
+        },
+        edited_item: null,
+      },
+      computed: {
+        btn_switch: function(){
+          if (this.new_item.brand.length > 0 && this.new_item.model.length > 0){
+            return false
+          } 
+          return true
+        },
+        update_switch: function(){
+          if (this.edited_item.brand.length > 0 && this.edited_item.model.length > 0){
+            return false
+          } 
+          return true
+        },
       },
       created:function(){
         // this.ajax = new XMLHttpRequest();
         this.retrieve_all();
       },
       methods:{
+        create_item:function(){
+          const that = this;
+          $.post({
+            url: that.url,
+            data:{
+              action: 'create_item',
+              new_item: that.new_item
+            }
+          })
+          .always(data => {
+            // Prepare vars for new data
+            that.car_info_set = [];
+            that.err_msg = '';
+          })
+          .done(data => {
+            // Process Data
+            const result = JSON.parse(data),
+              ok = result[0],
+              body = result[1];
+            if (ok){
+              that.new_item = {
+                brand: '',
+                model: '',
+                engine: 1,
+                gearbox: 1,
+              }
+              that.retrieve_all();
+            } else {
+              that.err_msg = that.logError(body);
+            }
+          })
+          .fail(data => {
+            // Show local error message
+            that.err_msg = data.statusText;
+          });
+        },
         retrieve_all:function(){
           // Retrieve all cars from database
           const that = this;
@@ -99,6 +223,43 @@
             // Display local error
             self.err_msg = data.statusText
           })
+        },
+        update_item: function(){
+          this.edit_switch = !this.edit_switch
+          const that = this;
+          $.post({
+            url: that.url,
+            data:{
+              action: 'update_item',
+              edited_item: that.edited_item
+            }
+          })
+          .always(data => {
+            // Prepare vars for new data
+            that.car_info_set = [];
+            that.err_msg = '';
+          })
+          .done(data => {
+            // Process Data
+            const result = JSON.parse(data),
+              ok = result[0],
+              body = result[1];
+            if (ok){
+              that.edited_item = {
+                brand: '',
+                model: '',
+                engine: 1,
+                gearbox: 1,
+              }
+              that.retrieve_all();
+            } else {
+              that.err_msg = that.logError(body);
+            }
+          })
+          .fail(data => {
+            // Show local error message
+            that.err_msg = data.statusText;
+          });
         },
         delete_item: function(id){
           // Send delete command and car ID of car to be deleted
@@ -131,9 +292,6 @@
             self.err_msg = data.statusText
           })
         },
-        edit_item: function(id){
-          console.log(id);
-        },
         logError:function(err_code){
           switch (err_code){
             case 0: 
@@ -143,11 +301,47 @@
             case 2: 
               return 'No records matched your request.';
             case 3:
-              return 'Record could not be deleted.';
+              return 'Your request could not be completed.';
             case 4:
               return 'Valid Car ID Required for that action.';
+            case 5:
+              return 'You must provide details to save a car.';
+            case 6: 
+              return 'You have attempted an illegal action. Stop that. It\'s naughty.';
           }
         },
+        start_edit:function(car){
+          this.edited_item = {...car}
+          switch(this.edited_item.engine){
+            case 'Petrol':
+              this.edited_item.engine = "1"
+              break;
+            case 'Diesel':
+              this.edited_item.engine = "2"
+              break;
+            case 'Electric':
+              this.edited_item.engine = "3"
+              break;
+            case 'Hybrid':
+              this.edited_item.engine = "4"
+              break;
+            case 'Hydrogen':
+              this.edited_item.engine = "5"
+              break;
+          }
+          switch(this.edited_item.gearbox){
+            case 'Automatic':
+              this.edited_item.gearbox = "1"
+              break;
+            case 'Manual':
+              this.edited_item.gearbox = "2"
+              break;
+          }
+          this.edit_switch = !this.edit_switch
+        },
+        cancel_edit:function(){
+          this.edit_switch = !this.edit_switch
+        }
       },
     })
     // setInterval(vm.retrieve_all, 500);
