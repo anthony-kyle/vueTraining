@@ -73,10 +73,9 @@
             } else {
               that.err_msg = that.logError(body);
             }
-
           })
           .fail(data => {
-
+            self.err_msg = data.statusText
           })
         },
 
@@ -92,7 +91,7 @@
         },
       },
     })
-    // setInterval(vm.request, 1000);
+    setInterval(vm.jq_request_response, 500);
   </script>
 </body>
 </html>
