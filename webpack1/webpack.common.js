@@ -13,7 +13,9 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
   },
-
+  optimization: {
+    splitChunks: {}
+  },
   module: {
     rules: [
       {
