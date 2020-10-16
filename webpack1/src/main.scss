@@ -10,7 +10,7 @@ $body-color: grey;
   color: yellow;
 }
 body {
-  background: $body-color url('cat.jpg') center center no-repeat;
+  background: $body-color url('cat.jpg') top center no-repeat;
   background-size: cover;
   font-size: 2em;
 }

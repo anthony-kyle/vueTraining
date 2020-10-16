@@ -3,7 +3,7 @@ const _ = require('lodash')
 require('./main.scss');
 require('./module1.js');
 require('./module2.js');
-document.querySelector('#p3').innerText = 'Set by Entry.js';
+document.querySelector('#p3').innerText = 'Entry.js Hotly Reloaded';
 $('#p1').click(()=>{
   console.log('thankyou expose-loader')
 })

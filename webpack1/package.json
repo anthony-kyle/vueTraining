@@ -4,23 +4,29 @@
   "description": "My webpack project",
   "main": "index.html",
   "scripts": {
-    "build": "webpack"
+    "build:dev": "webpack --config ./webpack.dev.js --watch",
+    "build:prod": "webpack --config ./webpack.prod.js --watch",
+    "build:srv": "webpack serve --config ./webpack.dev.js --inline --hot"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^5.0.0",
     "expose-loader": "^1.0.1",
     "file-loader": "^6.1.1",
+    "html-webpack-plugin": "^4.5.0",
     "sass": "^1.27.0",
     "sass-loader": "^10.0.3",
     "style-loader": "^2.0.0",
     "webpack": "^5.1.0",
     "webpack-cli": "^4.0.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.2.0"
   },
   "dependencies": {
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "mini-css-extract-plugin": "^1.0.0"
   }
 }

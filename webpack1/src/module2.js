@@ -1,1 +1,1 @@
-document.querySelector('#p2').innerText = 'Set by module2.js';
+document.querySelector('#p2').innerText = 'Watching from module2.js';
