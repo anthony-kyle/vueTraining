@@ -1,0 +1,1 @@
+document.querySelector('#p1').innerText = 'Set by module1.js';

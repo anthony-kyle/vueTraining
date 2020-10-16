@@ -1,0 +1,16 @@
+$body-color: grey;
+
+#p1 {
+  color: blue;
+}
+#p2 {
+  color: green;
+}
+#p3 {
+  color: yellow;
+}
+body {
+  background: $body-color url('cat.jpg') center center no-repeat;
+  background-size: cover;
+  font-size: 2em;
+}
