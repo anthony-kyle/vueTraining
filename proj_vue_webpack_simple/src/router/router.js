@@ -21,14 +21,10 @@ const routes = [
   {
     name: 'first',
     path: '/comp_one/:msg',
-    component:one,
-    children: [
-      {
-        path: 'child',
-        component: child
-      }
-    ],
-    
+    components:{
+      default: one,
+      child: child
+    }
   },
   {
     name: 'second',

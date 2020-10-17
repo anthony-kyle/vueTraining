@@ -1,7 +1,6 @@
 <template>
   <div>
     <p>{{msg}}: {{url_msg}}</p>
-    <router-view></router-view>
   </div>
 </template>
 <script>

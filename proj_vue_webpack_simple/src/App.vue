@@ -3,6 +3,7 @@
     <masthead></masthead>
     <navi></navi>
     <router-view></router-view>
+    <router-view name="child"></router-view>
     <foot></foot>
   </div>
 </template>
