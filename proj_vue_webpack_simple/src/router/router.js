@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 const one = () => import('../components/one.vue');
 const two = () => import('../components/two.vue');
 const three = () => import('../components/three.vue');
+const child = () => import('../components/child.vue');
 
 Vue.use(VueRouter)
 const routes = [
@@ -20,7 +21,14 @@ const routes = [
   {
     name: 'first',
     path: '/comp_one/:msg',
-    component:one
+    component:one,
+    children: [
+      {
+        path: 'child',
+        component: child
+      }
+    ],
+    
   },
   {
     name: 'second',

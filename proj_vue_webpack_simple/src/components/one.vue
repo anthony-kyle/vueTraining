@@ -1,6 +1,7 @@
 <template>
   <div>
     <p>{{msg}}: {{url_msg}}</p>
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -21,7 +22,9 @@ export default {
 <style lang="scss" scoped>
 div {
   display: grid;
+  font-size: 2em;
   background-color: #66aaaa;
   color: #004444;
+  padding: 1em;
 }
 </style>
