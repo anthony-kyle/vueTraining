@@ -8,14 +8,17 @@ import three from '../components/three.vue';
 Vue.use(VueRouter)
 const routes = [
   {
+    name: 'first',
     path: '/comp_one',
     component:one
   },
   {
+    name: 'second',
     path: '/comp_two',
     component:two
   },
   {
+    name: 'third',
     path: '/comp_three',
     component:three
   }

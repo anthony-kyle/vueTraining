@@ -1,16 +1,16 @@
 <template>
   <nav>
     <ul>
-      <li><router-link to='/comp_one'>1</router-link></li>
-      <li><router-link to='/comp_two'>2</router-link></li>
-      <li><router-link to='/comp_three'>3</router-link></li>
-    </ul>  
+      <li><router-link :to="{ name: 'first' }">1</router-link></li>
+      <li><router-link :to="{ name: 'second' }">2</router-link></li>
+      <li><router-link :to="{ name: 'third' }">3</router-link></li>
+    </ul>
   </nav>
 </template>
 <script>
 export default {
-  data:()=>{
-    return{}
+  data: () => {
+    return {}
   }
 }
 </script>
