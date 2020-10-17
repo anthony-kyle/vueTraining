@@ -1,7 +1,8 @@
 <template>
   <nav>
     <ul>
-      <li><router-link :to="{ name: 'first' }">1</router-link></li>
+      <li><router-link :to="{ name: 'first', params: {msg: 'Hello'} }">1</router-link></li>
+      <li><router-link :to="{ name: 'first', params: {msg: 'Bye'} }">1</router-link></li>
       <li><router-link :to="{ name: 'second' }">2</router-link></li>
       <li><router-link :to="{ name: 'third' }">3</router-link></li>
     </ul>

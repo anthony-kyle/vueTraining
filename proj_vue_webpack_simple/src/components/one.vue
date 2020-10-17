@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>{{msg}}</p>
+    <p>{{msg}}: {{url_msg}}</p>
   </div>
 </template>
 <script>
@@ -9,7 +9,13 @@ export default {
     return {
       msg: "Component 1"
     }
+  },
+  computed: {
+    url_msg:function(){
+      return this.$route.params.msg; 
+    }
   }
+
 }
 </script>
 <style lang="scss" scoped>
