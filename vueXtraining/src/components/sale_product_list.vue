@@ -2,10 +2,7 @@
   <div id="sale_product_list">
     <p>Sale Price List</p>
     <ul>
-      <li
-        v-for="item in $store.getters.sale_product_list"
-        v-bind:key="'sale' + item.product"
-      >
+      <li v-for="item in sale" v-bind:key="'sale' + item.product">
         <b>{{ item.product }}</b> @ $<i>{{ item.price }}</i
         >/KG
       </li>
@@ -14,11 +11,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data: function () {
     return {}
   },
-  computed: {},
+  computed: {
+    ...mapGetters({
+      sale: 'sale_products'
+    })
+  },
   methods: {}
 }
 </script>

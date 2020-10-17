@@ -21,3 +21,9 @@ export default {
   computed: {}
 }
 </script>
+
+<style lang="scss">
+  * {
+    font-family: Verdana, sans-serif;
+  }
+</style>

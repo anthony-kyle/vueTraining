@@ -13,7 +13,7 @@ const store = {
     ]
   },
   getters: {
-    sale_product_list: state => {
+    sale_products: state => {
       return state.products.map(item => {
         return {
           product: item.product,
@@ -22,8 +22,34 @@ const store = {
       })
     }
   },
-  mutations: {},
-  actions: {}
+  mutations: {
+    mutate_single_price(state, argument){
+      if(argument[0]){
+        argument[2].price += argument[1]
+      }else{
+        argument[2].price -= argument[1]
+      }
+      
+    },
+    mutate_all_prices(state, argument){
+      if (argument[0]){
+        state.products.forEach(product => {
+          product.price += argument[1]
+        })
+      } else {
+        state.products.forEach(product => {
+          product.price -= argument[1]
+        })
+      }
+    }
+  },
+  actions: {
+    action_single_price(context, argument){
+      setTimeout(()=>{
+        context.commit('mutate_single_price', argument)
+      }, 3000)
+    }
+  }
 }
 
 export default new vuex.Store(store)
