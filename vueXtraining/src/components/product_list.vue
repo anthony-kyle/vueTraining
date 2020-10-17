@@ -2,7 +2,7 @@
   <div id="product_list">
     <p>Price List</p>
     <ul>
-      <li v-for='item in info' v-bind:key='"product"+item.product'>
+      <li v-for="item in info" v-bind:key="'product' + item.product">
         <b>{{ item.product }}</b> @ $<i>{{ item.price }}</i
         >/KG
       </li>
@@ -16,7 +16,7 @@ export default {
     return {}
   },
   computed: {
-    info: function(){
+    info: function () {
       return this.$store.state.products
     }
   },

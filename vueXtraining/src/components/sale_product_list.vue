@@ -2,7 +2,10 @@
   <div id="sale_product_list">
     <p>Sale Price List</p>
     <ul>
-      <li v-for='item in $store.getters.sale_product_list' v-bind:key='"sale"+item.product'>
+      <li
+        v-for="item in $store.getters.sale_product_list"
+        v-bind:key="'sale' + item.product"
+      >
         <b>{{ item.product }}</b> @ $<i>{{ item.price }}</i
         >/KG
       </li>
@@ -15,8 +18,7 @@ export default {
   data: function () {
     return {}
   },
-  computed: {
-  },
+  computed: {},
   methods: {}
 }
 </script>
