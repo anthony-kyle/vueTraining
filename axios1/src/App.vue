@@ -43,26 +43,57 @@ export default {
       }
       axios
         .all([send_msg(), send_author()])
-        .then(axios.spread((msg, author) => {
-          console.log("MSG", msg);
-          console.log("AUTHOR:", author)
-        }))
+        .then(
+          axios.spread((msg, author) => {
+            console.log('MSG', msg)
+            console.log('AUTHOR:', author)
+          })
+        )
         .catch(err => console.error(err))
     },
     trigger_post() {
+      const request_interceptor = axios.interceptors.request.use(
+        config => {
+          return config
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
+
+      const response_interceptor = axios.interceptors.response.use(
+        response => {
+          return response
+        },
+        error => {
+          if (error.response) {
+            error.message = 'Successful request + response: ' + error.message
+          } else if (error.request) {
+            error.message =
+              'Successful request but no response: ' + error.message
+          } else {
+            error.message = 'No request sent: ' + error.message
+          }
+          return Promise.reject(error)
+        }
+      )
       axios
         .post(
           '/interface',
           qs.stringify({
-            msg: 'Hello from axios get'
-          })
+            msg: 'Hello from axios POST'
+          }), {
+            timeout: 1
+          }
         )
         .then(res => {
           console.log('RESULT', res)
         })
         .catch(err => {
-          console.error('ERROR', err)
+          console.error(err)
         })
+      axios.interceptors.request.eject(request_interceptor)
+      axios.interceptors.response.eject(response_interceptor)
     },
     trigger_get() {
       axios
